@@ -1,0 +1,86 @@
+extends layout
+
+block content
+  .border
+    .container
+      h3.text-center #{title_chart1}
+      h4.text-center #{title}
+      .dropdown
+        button.btn.btn-primary.dropdown-toggle(type='button', data-toggle='dropdown')
+          | Year
+        .dropdown-menu
+          a.dropdown-item(href='/chart/2018') 2018
+          a.dropdown-item(href='/chart/2017') 2017
+          a.dropdown-item(href='/chart/2016') 2016
+          a.dropdown-item(href='/chart/2015') 2015
+          a.dropdown-item(href='/chart/2014') 2014
+          a.dropdown-item(href='/chart/2013') 2013
+          a.dropdown-item(href='/chart/2012') 2012
+          a.dropdown-item(href='/chart/2011') 2011
+          a.dropdown-item(href='/chart/2010') 2010
+      canvas#chartLine(width='1000', height='500')
+      br
+      br
+      h3.text-center #{title_chart2}
+      canvas#chartPie(width='1000', height='500')
+      script.
+        var ctx = document.getElementById("chartLine");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: !{getMonth},
+                datasets: [{
+                    label: '# people',
+                    data: #{getFrek},
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1,
+                    fill : false
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true,
+                            fixedStepSize: 1
+                        }
+                    }]
+                }
+            }
+        });
+        var ctx = document.getElementById("chartPie");
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: !{getGender},
+                datasets: [{
+                    label: '# of Votes',
+                    data: #{getFrekGen},
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+

@@ -1,0 +1,28 @@
+extends layout
+
+block content
+  .border
+    h1.text-center #{title}
+    div
+    p 
+      em #{notif2}
+      table.table.table-bordered
+        thead.thead-dark.table-center
+          tr
+            th No
+            th User Id
+            th Username
+            th Email
+            th Password
+        tbody
+          for users in data
+            tr
+              td.table-center= users.no
+              td.table-center= users.id
+              td.table-center= users.user
+              td.table-center= users.email
+              td.table-center= users.password
+      p.table-center 
+        em #{notif}
+
+

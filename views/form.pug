@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  .border
+    h1.text-center Add Student 
+    title
+    .container
+      .row
+        .col-sm-12
+          div
+            form(action='/add', method='post')
+              .form-group.row
+                label.control-label.col-sm-2(for='name') Name 
+                .col-sm-10
+                  input#name.form-control(type='text', placeholder='Enter Your Name' name='name')
+              .form-group.row
+                label.control-label.col-sm-2(for='address') Address 
+                .col-sm-10
+                  input#address.form-control(rows='3', placeholder='Input Your Address' name='address') 
+              .form-group.row
+                label.control-label.col-sm-2(for='email') Email Student 
+                .col-sm-10
+                  input#email.form-control(type='text', placeholder='' name='email_student')
+              .form-group.row
+                label.control-label.col-sm-2(for='gender') Gender 
+                .col
+                  label.radio
+                    input(type='radio', name='gender', value='M', checked='')
+                    |  Male
+                .col(style='padding-left: 2rem')
+                  label.radio
+                    input(type='radio', name='gender', value='F')
+                    |  Female
+              .form-group.row
+                label.control-label.col-sm-2(for='birth') Birth 
+                .col-sm-10
+                  input#birth.form-control(type='date', placeholder='' name='date_of_birth')
+              .form-group
+                .col-sm-12
+                  input.btn.btn-success.btn-lg.btn-block(type='submit')
+
+
+    
