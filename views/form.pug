@@ -12,29 +12,29 @@ block content
               .form-group.row
                 label.control-label.col-sm-2(for='name') Name 
                 .col-sm-10
-                  input#name.form-control(type='text', placeholder='Enter Your Name' name='name')
+                  input#name.form-control(type='text', placeholder='Enter Your Name' name='name' value=val_name)
               .form-group.row
                 label.control-label.col-sm-2(for='address') Address 
                 .col-sm-10
-                  input#address.form-control(rows='3', placeholder='Input Your Address' name='address') 
+                  input#address.form-control(rows='3', placeholder='Input Your Address' name='address' value=val_address) 
               .form-group.row
                 label.control-label.col-sm-2(for='email') Email Student 
                 .col-sm-10
-                  input#email.form-control(type='text', placeholder='' name='email_student')
+                  input#email.form-control(type='text', placeholder='' name='email_student' value=val_email)
               .form-group.row
                 label.control-label.col-sm-2(for='gender') Gender 
                 .col
                   label.radio
-                    input(type='radio', name='gender', value='M', checked='')
+                    input(type='radio', name='gender', value='M', checked=val_gender=='M' )
                     |  Male
                 .col(style='padding-left: 2rem')
                   label.radio
-                    input(type='radio', name='gender', value='F')
+                    input(type='radio', name='gender', value='F' checked=val_gender=='F')
                     |  Female
               .form-group.row
                 label.control-label.col-sm-2(for='birth') Birth 
                 .col-sm-10
-                  input#birth.form-control(type='date', placeholder='' name='date_of_birth')
+                  input#birth.form-control(type='date', placeholder='' name='date_of_birth'  value=val_birth)
               .form-group
                 .col-sm-12
                   input.btn.btn-success.btn-lg.btn-block(type='submit')

@@ -4,6 +4,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
+const Joi = require('joi');
 
 const crypto = require('crypto')
 const passport = require('passport');
@@ -11,8 +12,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const sess = require('express-session');
 const Store = require('express-session').Store;
 const BetterMemoryStore = require('session-memory-store')(sess);
-const flash = require('connect-flash');
-const flash2 = require('express-flash');
+const flash = require('express-flash');
 const remember_me = require('passport-remember-me');
 const RememberMeStrategy = require('passport-remember-me').Strategy;
 const async = require('async');
@@ -39,10 +39,10 @@ const store = new BetterMemoryStore({ expires: 60 * 60 * 1000, debug: true });
 const app = express();
 
 const dbOptions = {
-    host:      config.database.host,
-    user:       config.database.user,
+    host: config.database.host,
+    user: config.database.user,
     password: config.database.password,
-    port:       config.database.port, 
+    port: config.database.port, 
     database: config.database.db
 };
 // view engine setup
@@ -88,7 +88,6 @@ passport.use(new RememberMeStrategy(
   }
 ));
 
-app.use(flash2());
 app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
