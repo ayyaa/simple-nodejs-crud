@@ -108,7 +108,7 @@ router.post('/confrim-two-factor', function(req, res, next) {
       res.render('confirm-two-factor', {'error': req.flash('error'), val_user: req.body.username});
     } else  {
       users.findOne({
-        attributes: ['user', 'secret_code', 'url_qr', 'status_two_fa'],
+        attributes: ['user', 'id', 'password'],
         where: {
           user: req.body.username
         }

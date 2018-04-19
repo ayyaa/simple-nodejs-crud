@@ -1,13 +1,13 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../seq-config');
 
-sequelize.authenticate()
-.then(() => {
-  console.log('connected');
-})
-.catch(() => {
-  console.error('error con', err);
-})
+// sequelize.authenticate()
+// .then(() => {
+//   console.log('connected');
+// })
+// .catch(() => {
+//   console.error('error con', err);
+// })
 
 var user = sequelize.define('user', {
   id: {
