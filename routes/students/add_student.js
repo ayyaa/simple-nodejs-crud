@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const validateJoi = require('./joi-validate/joi-student');
+const validateJoi = require('../joi-validate/joi-student');
 const moment = require('moment');
+const Sequelize = require('sequelize');
+const student = require('../sequelize/models/seq-students');
 
 router.get('/add', function(req, res) {
-  res.render('form', {title: 'Input Student'});
+  res.render('form', {title: 'Input Student', nameTag: req.user.user});
 });
 
 router.post('/add', function(req, res, next) {
@@ -12,22 +14,20 @@ router.post('/add', function(req, res, next) {
 
   validateJoi.validate({name: req.body.name, address: req.body.address, email_student: req.body.email_student, gender: req.body.gender, date_of_birth: req.body.date_of_birth, age: age}, function( errors, value) {
     if(!errors) {
-      req.getConnection(function(error, conn) {
-        if (error) return next(error);
-  
-        var atrStudent = {
-          name: req.body.name,
-          address:req.body.address,
-          email_student: req.body.email_student,
-          gender: req.body.gender,
-          date_of_birth: req.body.date_of_birth
-        }
-        conn.query('INSERT INTO student SET ?', [atrStudent], function(err, result) {
-          if (err) return next(err);
+      var atrStudent = {
+        name: req.body.name,
+        address:req.body.address,
+        email_student: req.body.email_student,
+        gender: req.body.gender,
+        date_of_birth: req.body.date_of_birth
+      }
 
-          req.flash('success', 'Successful inserted student')
-          res.redirect('/student');
-        });
+      student.create(
+        atrStudent
+      )
+      .then(rows => {
+        req.flash('success', 'Successful inserted student')
+        res.redirect('/student');
       })
     } else {
       req.flash('error', errors)

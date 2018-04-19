@@ -8,26 +8,24 @@ html(lang='en')
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+    script(src='https://www.google.com/recaptcha/api.js')
     style(type='text/css').
-      .login-form {
-      width: 340px;
+      .forgot-form {
+      width: 400px;
       margin: 50px auto;
       }
-      .login-form form {
+      .forgot-form form {
       margin-bottom: 15px;
       background: #f7f7f7;
       box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       padding: 30px;
       }
-      .login-form h2 {
+      .forgot-form h2 {
       margin: 0 0 15px;
       }
       .form-control, .btn {
       min-height: 38px;
       border-radius: 2px;
-      }
-      .form-regist {
-      padding-top: 10px;
       }
       .btn {
       font-size: 15px;
@@ -39,16 +37,20 @@ html(lang='en')
       legend {
         font-size: 35px;
       }
+      .container {
+        padding-top:2rem;
+      }
       .flash-content {
         width: 500px;
         margin: 10px auto;
       }
   body
-    .container
+  .container
+    .flash-content
       |
       - if(error){
       .alert.alert-danger 
-       .text-center #{error}
+        .text-center #{error}
       - }
       |
       - if(info){
@@ -60,27 +62,21 @@ html(lang='en')
       .alert.alert-success 
         .text-center #{success}
       - }
-    .login-form
-      form(action='/signin', method='get')
-        legend.text-center Log in
-        .form-group
-          input.form-control(type='text', placeholder='Username', required='required', name='username')
-        .form-group
-          input.form-control(type='password', placeholder='Password', required='required', name='password')
-          |
-          - if(message){
-          p(style='color:red') #{message}
-          - }
-        .form-group
-          button.btn.btn-primary.btn-block(type='submit') Log in
-        .clearfix
-          label.pull-left.checkbox-inline
-            input(type='checkbox' name='rememberme')
-            |  Remember me
-          a.pull-right(href='/forgot') Forgot Password?
-        .form-regist.form-group
-          p.pull-left Doesn't have an account ? 
-          a.pull-right(href='/register') Register
-          
-          
-    
+  .forgot-form
+    form(action='/confrim-two-factor', method='post')
+      legend Confirm Two Factor Authentication
+      .form-group
+        label(for='username') Username
+        input.form-control(type='text', name='username', value=username, readonly)
+      .form-group
+        p Please input 6-digit code from your third partity:
+        label(for='security') Security Code
+        input.form-control(type='text', name='security', autofocus)
+        |
+        - if(error){
+        h6(style="color:red") #{error}
+        - }
+      .form-group
+        button.btn.btn-primary.btn-block(type='submit') Confirm 
+      .clearfix
+        a.pull-right(href='/') Back to Login ?

@@ -26,13 +26,19 @@ const moment = require('moment');
 const login = require('./routes/login');
 const forgot_password = require('./routes/forgot_password');
 const reset_password = require('./routes/reset_password');
+const confirm_password = require('./routes/confirm_pass');
+const register = require('./routes/register');
 const index = require('./routes/index');
-const users = require('./routes/users');
+const users = require('./routes/users/users');
 const statistic = require('./routes/statistic');
-const add_student = require('./routes/add_student');
-const student_list = require('./routes/student_list');
-const update_student = require('./routes/update_student');
-const delete_student = require('./routes/delete_student');
+const add_student = require('./routes/students/add_student');
+const student_list = require('./routes/students/student_list');
+const update_student = require('./routes/students/update_student');
+const delete_student = require('./routes/students/delete_student');
+
+const Sequelize = require('sequelize');
+const student = require('./routes/sequelize/models/seq-students');
+const user1 = require('./routes/sequelize/models/seq-users');
 
 const store = new BetterMemoryStore({ expires: 60 * 60 * 1000, debug: true });
 
@@ -98,15 +104,17 @@ passport.use('local', new LocalStrategy({
   passwordField: 'password',
   passReqToCallback: true //passback entire req to call back
 } , function(req, username, password, done) {
-  req.getConnection(function(error, conn){
+  // req.getConnection(function(error, conn){
     if (!username || !password ) { 
       return done(null, false, req.flash('message','all fields are required')); 
     }
     var salt = config.salt.value;
-    var sql = "select * from user where user = ?";
-    conn.query(sql, [username], function(err, rows) {
-      console.log(err); console.log(rows);
-      console.log(rows[0]);
+    user1.findAll({
+      where: {
+        user: [username]
+      }
+    })
+    .then(function(rows, err) {
 
       if (err) return err;
       if (!rows.length) { 
@@ -121,8 +129,25 @@ passport.use('local', new LocalStrategy({
         return done(null, false, req.flash('message','Invalid username or password.'));
       }
       return done(null, rows[0]);
-    });
-  });
+    })
+    // conn.query("select * from user where user = ?", [username], function(err, rows) {
+    //   console.log(rows[0]);
+
+    //   if (err) return err;
+    //   if (!rows.length) { 
+    //     return done(null, false, req.flash('message','Invalid username or password.')); 
+    //   }
+      
+    //   salt = salt+''+password;
+    //   var encPassword = crypto.createHash('sha1').update(salt).digest('hex');
+    //   var dbPassword  = rows[0].password;
+
+    //   if (!(dbPassword == encPassword)) {
+    //     return done(null, false, req.flash('message','Invalid username or password.'));
+    //   }
+    //   return done(null, rows[0]);
+    // });
+  // });
   }
 ));
 
@@ -131,12 +156,19 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(req, id, done) {
-  req.getConnection(function(error, conn){
-    var sql = "select * from user where id = ? ";
-    conn.query(sql, [id], function (err, rows){
-        done(err, rows[0]);
-    });
-  });
+  user1.findAll({
+    where: {
+      id: [id]
+    }
+  })
+  .then(function(rows, err) {
+    done(err, rows[0]);
+  })
+  // req.getConnection(function(error, conn){
+  //   conn.query("select * from user where id = ? ", [id], function (err, rows){
+        
+  //   });
+  // });
 });
 
 function isAuthenticated(req, res, next) {
@@ -158,6 +190,8 @@ app.get('/logout', function(req, res) {
 app.use('/', login);
 app.use('/', forgot_password);
 app.use('/', reset_password);
+app.use('/', register);
+app.use('/', confirm_password);
 
 app.use('/', isAuthenticated, index);
 app.use('/', isAuthenticated, statistic);

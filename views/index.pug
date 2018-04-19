@@ -6,14 +6,14 @@ block content
     div
       form.form-inline(method='GET')
         .form-group
-          input#pwd.form-control.col-5(type='text', placeholder='Search', name='search', style='width:460px; margin-right:1rem;')
+          input#pwd.form-control.col-5(type='text', placeholder='Search', name='search', style='width:460px; margin-right:1rem;' value=val_search)
           select.custom-select.col-2(style='width:auto; margin-right:1rem;' name='get_atr' )
-            option(selected='' value='id_student') Id student
-            option(value='name') Name
-            option(value='address') Address
+            option(selected=val_get_atr=='id_student' value='id_student') Id student
+            option(value='name' selected=val_get_atr=='name') Name
+            option(value='address' selected=val_get_atr=='address') Address
           select.custom-select.col-2(style='width:auto; margin-right:1rem;' name='sort')
-            option(value='ASC') Ascending
-            option(selected='' value='DESC') Descending
+            option(value='ASC' selected=val_sort=='ASC') Ascending
+            option(selected=val_sort=='DESC' value='DESC') Descending
           button.btn.btn-success.form-control(type='submit', style='width:auto;')
             span.fa.fa-filter
             |  Filter

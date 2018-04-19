@@ -13,29 +13,22 @@ const users = require('./sequelize/models/seq-users');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-router.get('/reset/:token', function(req, res) {
+router.get('/confirm/:token', function(req, res) {
   if (req.isAuthenticated()) {
     res.redirect('/home')
   } else {
     users.findAll({
       where: {
-        reset_password_token: req.params.token
+        confirm_token: [req.params.token]
       }
     })
     .then(rows => {
       if (rows.length <= 0) {
-        req.flash('error', 'Password reset token is invalid.');
-        return res.redirect('/forgot');
+        req.flash('error', 'confirm reset token is invalid.');
+        return res.redirect('/login');
       }
 
-      var validTime = moment().diff(rows[0].reset_password_expires , 'minute');
-
-      if (validTime > 30) {
-        req.flash('error', 'Password reset token has expired.');
-        return res.redirect('/forgot');
-      }
-
-      res.render('reset', {val_user: rows[0].user, val_token: req.params.token});
+      res.render('confirm_password', {val_user: rows[0].user, val_email: rows[0].email});
     })
     .catch(() => {
       
@@ -43,45 +36,37 @@ router.get('/reset/:token', function(req, res) {
   }
 });
 
-router.post('/reset/:token', function(req, res) {
+router.post('/confirm/:token', function(req, res) {
   validateJoi.validate({pass: req.body.password, confirm: req.body.confirm}, function(errors, value) {
     if (!errors) {
       console.log(req.body.password);
       console.log(req.body.confirm);
       if (req.body.password != req.body.confirm) {
-        alert('Password and confirm does not match.');
+        req.flash('error', 'Password and confirm does not match.');
+        res.render('confirm_password', {'error': req.flash('error'), val_user: req.body.user, val_email: req.body.email})
       } else {
         async.waterfall([
           function(done) {
             users.findAll({
               where: {
-                reset_password_token: req.params.token
+                confirm_token: [req.params.token]
               }
             })
             .then(function(rows) {
               if(rows.length <= 0) {
-                req.flash('error', 'Password reset token is invalid.');
+                req.flash('error', 'Confirm password token is invalid.');
                 return res.redirect('/forgot');
               }
-        
-              var validTime = moment().diff(rows[0].reset_password_expires , 'minute');
-        
-              if(validTime > 30){
-                req.flash('error', 'Password reset token has expired.');
-                return res.redirect('/forgot');
-              }
-  
-              var newPassword = req.body.password;
-              newPassword = config.salt.value+''+newPassword;
+
+              var newPassword = config.salt.value+''+req.body.password;
 
               var email = rows[0].email;
               users.update({
-                password: Sequelize.fn('sha1', newPassword), 
-                reset_password_token: null,
-                reset_password_expires: null
+                password: Sequelize.fn('sha1', newPassword),  
+                confirm_token: null
                 },
                 { where: {
-                  email: email
+                  email: [email]
                 }
               })
               .then(function(rows, err) {
@@ -89,7 +74,7 @@ router.post('/reset/:token', function(req, res) {
 
                 users.findAll({
                   where: {
-                    email: email
+                    email: [email]
                   }
                 })
                 .then(function(rows, err) {
@@ -108,21 +93,34 @@ router.post('/reset/:token', function(req, res) {
                 'Your Username is '+rows[0].user+'\n\n' +
                 'Your Password is '+req.body.password
             };
-            console.log(rows[0].email);
+
             sgMail.send(mailOptions, function(err) {
               console.log(mailOptions);
-              req.flash('info', 'Success! Your password has been changed.');
-              res.redirect('/login')
-              done(err, 'done');
+
+              users.findOne({
+                where: {
+                  user: [req.body.user]
+                },
+                attributes: ['id', 'user', 'password']
+              })
+              .then(function(user) {
+                req.login(user, function(err) {
+                  if (err) {
+                    req.flash('error', err.message);
+                    return res.redirect('back');
+                  }
+                  req.flash('info', 'Congratulations, you successfully registered');
+                  res.redirect('/home');
+                  done(err, 'done');
+                })
+              })
             });
           }
-        ], function(err) {
-          res.redirect('/reset/'+req.params.id);
-        });
+        ]);
       }
     } else {
       req.flash('error', errors);
-      res.render('reset',{'error' :req.flash('error'), val_user: req.body.user, val_token: req.body.token});
+      res.render('confirm_password',{'error' :req.flash('error'), val_user: req.body.user, val_email: req.body.email});
     }
   })
 });

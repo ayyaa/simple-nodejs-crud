@@ -16,6 +16,10 @@ h2 {
 h3 {
   padding-bottom: 1rem;
 }
+/* 
+h5 {
+  padding-left: 1rem;
+} */
 
 .border{
   margin-bottom: 15px;
@@ -44,4 +48,23 @@ ul.nav li a, ul.nav li a:visited {
 
 .dropdown-menu .dropdown-item.text-dark{
   color: black !important;
+}
+
+.border-security {
+  margin-right: 10rem;
+  margin-left: 10rem;
+
+}
+
+.line{
+  width: 44rem;
+  height: 4rem;
+  border-bottom: 1px solid black;
+  position: absolute;
+  /* margin-bottom: 10rem; */
+  }
+
+.flash-content {
+  width: 500px;
+  margin: 10px auto;
 }

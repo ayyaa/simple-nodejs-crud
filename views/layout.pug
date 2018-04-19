@@ -36,30 +36,39 @@ html
           i.fa.fa-user-plus
           |  Add Student
       li.nav-item.ml-auto.p-2
-        h6#namtag #{nameTag}   
+        a.nav-link(href='#') 
+          | Hi, #{nameTag}
       li.nav-item.p-2.dropdown
         a#navbarDropdown.nav-link.dropdown-toggle(href='#', role='button', data-toggle='dropdown')
           i.fa.fa-cog
         .dropdown-menu
+          a.dropdown-item.text-dark(style='font: #041c1e;' href='/profile')
+            i.fa.fa-plus
+            |   Profile
           a.dropdown-item.text-dark(style='font: #041c1e;' data-toggle='modal', data-target='#modalRegisterForm')
             i.fa.fa-plus
             |   Add User
           a.dropdown-item.text-dark(style='font: #041c1e;', href='/user')
             i.fa.fa-list
             |  User List
-          a.dropdown-item.text-dark(href='/logout', style='font: #041c1e;')
+          a.dropdown-item.text-dark(style='font: #041c1e;'  href='/two-factor-auth')
+            i.fa.fa-code
+            |   Add two-factor authentication
+          a.dropdown-item.text-dark(href='/logout', style='font: #041c1e;', onclick="return confirm('are you sure want to exit ?')")
             i.fa.fa-sign-out
             |   Logout
     .container
-    if messages.error
-      .alert.alert-danger
-        div= messages.error
-    if messages.info
-      .alert.alert-info
-        div= messages.info
-    if messages.success
-      .alert.alert-success
-        div= messages.success
+      .flash-content 
+        if messages.error
+          .alert.alert-danger
+            div= messages.error
+        if messages.info
+          .alert.alert-info
+            div= messages.info
+        if messages.success
+          .alert.alert-success
+            div= messages.success
+    
     #modalRegisterForm.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
       .modal-dialog(role='document')
         form(action='/addUser' method='POST')
@@ -75,7 +84,7 @@ html
                 label(data-error='wrong', data-success='right', for='orangeForm-name') 
               .md-form.mb-5
                 i.fa.fa-envelope.prefix.grey-text
-                input#orangeForm-email.form-control(type='email' placeholder='Your email' name='mail')
+                input#orangeForm-email.form-control(type='text' placeholder='Your email' name='mail')
                 label(data-error='wrong', data-success='right', for='orangeForm-email') 
               .md-form.mb-4
                 i.fa.fa-lock.prefix.grey-text

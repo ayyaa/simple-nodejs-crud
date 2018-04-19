@@ -4,7 +4,7 @@ html(lang='en')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Bootstrap Simple Login Form
+    title STudent DB
     link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
@@ -33,34 +33,40 @@ html(lang='en')
       h5{
         margin-bottom:1rem;
       }
+      .container {
+        padding-top:2rem;
+      }
+      .flash-content {
+        width: 500px;
+        margin: 10px auto;
+      }
   body
   .container
     |
     - if(error){
-    .alert.alert-danger #{error}
+    .alert.alert-danger 
+      .text-center #{error}
     - }
     |
     - if(info){
-    .alert.alert-info #{info}
+    .alert.alert-info 
+      .text-center #{info}
     - }
     |
     - if(success){
-    .alert.alert-success #{success}
+    .alert.alert-success 
+      .text-center #{success}
     - }
   .reset-form
     form(method='POST')
-      legend Reset Password
+      legend Register
       .form-group
         label(for='username') Username
-        input.form-control(type='text', name='user', value=val_user, readonly)
+        input.form-control(type='text', name='username', value=val_user, placeholder='Your Username', autofocus=true)
       .form-group
-        label(for='token') Token
-        input.form-control(type='text', name='token', value=val_token, readonly)
-      .form-group
-        label(for='password') New Password
-        input.form-control(type='password', name='password', value='', placeholder='New password', autofocus=true)
-      .form-group
-        label(for='confirm') Confirm Password
-        input.form-control(type='password', name='confirm', value='', placeholder='Confirm password')
+        label(for='email') Email
+        input.form-control(type='text', name='email', value=val_email, placeholder='Your Email')
       .form-group
         button.btn.btn-primary(type='submit') Update Password
+      .clearfix
+        a.pull-right(href='/') Back to Login ?

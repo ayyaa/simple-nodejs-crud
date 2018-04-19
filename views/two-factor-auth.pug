@@ -1,0 +1,155 @@
+extends layout
+
+block content
+  .border
+    h1.text-center #{title}
+    title
+    .container
+      .row.justify-content-center
+        .border.border-dark.col-lg-8
+          .col-lg-12 
+            h4 
+              i.fa.fa-code
+              |  Code Generator
+            span.float-left.align-center
+              | You can use Code Generator to generate login codes. Set up a third party app to generate codes.
+            .line
+            .float-right(style="padding-top: 2rem")
+              //- a.btn.btn-primary(role='button' style='width:auto' id='toggle-2fa-box-enable' name='btn-enable' ) Enable
+              a.btn.btn-primary(role='button' style='width:auto' id='toggle-2fa-box-enable' name='btn-enable' href='/btn-enable') Enable
+              a.btn.btn-danger.float-right(role='button' style='width:auto' name='btn-disable' href='/btn-disable' onclick="return confirm('are you sure to disable ?')") Disable
+        .col-lg-12 
+          //- #verify(style='margin-top:2rem')
+          //-     .row.justify-content-center
+          //-       .border.border-dark.col-lg-4
+          //-         form(method='POST')
+          //-           legend Confirm Password 
+          //-           .form-group
+          //-             label(for='username') Username
+          //-             input.form-control(type='text', name='user', value=val_user, readonly)
+          //-           .form-group
+          //-             label(for='password') Your Password
+          //-             input.form-control(type='password', name='password', value='', placeholder='Your password', autofocus=true)
+          //-           .form-group
+          //-             p Please confirm your password to continue
+          //-           .form-group
+          //-             button.btn.btn-primary.btn-block(type='submit') confirm
+          |
+          - if(enable){
+          #active(style='margin-top:2rem')
+            .row.justify-content-center
+              .border.border-dark.col-lg-4
+                p To get a third party app working, either scan the QR code below or type the secret key into the app.
+                div(style="overflow-x:auto;")
+                  table(style="width:100%")
+                    tr
+                      td(style="vertical-align:top; text-align:left;") qr code
+                      td(style="vertical-align:top; text-align:left;") :
+                      td
+                        img.rounded.mx-auto.d-block(src=uri_barcode alt='barcode secret code')
+                    tr
+                      td secret key
+                      td :
+                      td 
+                        code #{secret_code}
+                  div(style="margin-top:2em")
+                    p To confirm the third party app is set up correctly, enter the security code that appears on your phone.
+                    form.form-horizontal(action="/activated-two-fa" method="post")
+                      p(for='name') Security Code :
+                      input#name.form-control(type='text', placeholder='Enter Your Security Code' name='security_code' value=val_security_code)
+                      div(style="padding-top:1rem")
+                      |
+                      - if(error){
+                      h6(style="color:red") #{error}
+                      - }
+                      .form-group
+                        input.btn.btn-success.btn-block(type='submit')
+                        
+          - }
+
+          //- script.
+          //-   window.onload = function() {
+          //-     document.getElementById("verify").style.display = "none";
+          //-   }
+
+          //-   document.getElementById("toggle-2fa-box-enable").addEventListener("click", function(event) {
+          //-       event.preventDefault();
+          //-       var e = document.getElementById("verify");
+          //-       //- e.style.display = "block";
+          //-       if (e.style.display == "block") {
+          //-         e.style.display = "none";
+          //-       } else {
+          //-         e.style.display = "block";
+          //-       }
+          //-   });
+
+            //-  document.getElementById("toggle-2fa-box-disable").addEventListener("click", function(event) {
+            //-     event.preventDefault();
+            //-     var e = document.getElementById("active");
+            //-     e.style.display = "none";
+            //-     //- if (e.style.display == "block") {
+            //-     //-   e.style.display = "none";
+            //-     //- } else {
+            //-     //-   e.style.display = "block";
+            //-     //- }
+            //- });
+
+            
+
+            //- function active(e, a) {
+            //-   if (a == 1) {
+            //-     document.getElementById("active").style.display = "block";
+
+            //-   } else {
+            //-     document.getElementById("active").style.display = "none";
+            //-   }  
+            //- }
+          
+
+
+
+      //- div
+      //-   form(action='/add', method='post')
+      //-     .form-group.row
+      //-       label.control-label.col-sm-2(for='name') Name 
+      //-       .col-sm-10
+      //-         input#name.form-control(type='text', placeholder='Enter Your Name' name='name' value=val_name)
+
+          
+    //- .container
+    //-   .row
+    //-     .col-sm-12
+    //-       div
+    //-         form(action='/add', method='post')
+    //-           .form-group.row
+    //-             label.control-label.col-sm-2(for='name') Name 
+    //-             .col-sm-10
+    //-               input#name.form-control(type='text', placeholder='Enter Your Name' name='name' value=val_name)
+    //-           //- .form-group.row
+    //-           //-   label.control-label.col-sm-2(for='address') Address 
+    //-           //-   .col-sm-10
+    //-           //-     input#address.form-control(rows='3', placeholder='Input Your Address' name='address' value=val_address) 
+    //-           //- .form-group.row
+    //-           //-   label.control-label.col-sm-2(for='email') Email Student 
+    //-           //-   .col-sm-10
+    //-           //-     input#email.form-control(type='text', placeholder='' name='email_student' value=val_email)
+    //-           //- .form-group.row
+    //-           //-   label.control-label.col-sm-2(for='gender') Gender 
+    //-           //-   .col
+    //-           //-     label.radio
+    //-           //-       input(type='radio', name='gender', value='M', checked=val_gender=='M' )
+    //-           //-       |  Male
+    //-           //-   .col(style='padding-left: 2rem')
+    //-           //-     label.radio
+    //-           //-       input(type='radio', name='gender', value='F' checked=val_gender=='F')
+    //-           //-       |  Female
+    //-           //- .form-group.row
+    //-           //-   label.control-label.col-sm-2(for='birth') Birth 
+    //-           //-   .col-sm-10
+    //-           //-     input#birth.form-control(type='date', placeholder='' name='date_of_birth'  value=val_birth)
+    //-           .form-group
+    //-             .col-sm-12
+    //-               input.btn.btn-success.btn-lg.btn-block(type='submit')
+
+
+    
