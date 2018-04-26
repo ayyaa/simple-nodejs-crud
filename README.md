@@ -1,6 +1,6 @@
 # Simple CRUD with NodeJS
 
-https://travis-ci.org/ayyaa/simple-nodejs-crud.svg?branch=master
+[![Build Status](https://travis-ci.org/ayyaa/simple-nodejs-crud.svg?branch=master)](https://travis-ci.org/ayyaa/simple-nodejs-crud)
 
 ## About
 
