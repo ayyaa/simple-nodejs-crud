@@ -1,37 +1,40 @@
 body {
-  padding-top: 3rem;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px ;
+  color: darkslategray;
+  min-height: 100%;
 }
 
-h1 {
+h1, h2, h3 {
   padding-bottom: 2rem;
-
-}
-h2 {
-  padding-bottom: 2rem;
-
+  color: darkslategray !important;
 }
 
-h3 {
-  padding-bottom: 1rem;
-}
-/* 
-h5 {
-  padding-left: 1rem;
-} */
-
-.border{
-  margin-bottom: 15px;
-  padding: 30px;
+nav {
+  background-color: darkslategray !important;
 }
 
+.border-border{
+  align-items: center;
+  min-height: 100%;
+  min-width: 100%;
+}
+.border {
+  padding: 2rem;
+  margin-top: 3rem;
+  /* box-decoration-break: darkslategrey 2rem; */
+  border-top-width: 100px;
+  border-color: darkslategrey;
+  overflow-x: auto;
+}
 .table-center{
   text-align: center;
+  overflow-x:auto;
 }
 
 p {
   font-size: 12px;
+  color: darkslategray;
 }
 ul.nav li a, ul.nav li a:visited {
   color: #f7f7f7 !important;
@@ -47,18 +50,17 @@ ul.nav li a, ul.nav li a:visited {
 }
 
 .dropdown-menu .dropdown-item.text-dark{
-  color: black !important;
+  color: darkslategray !important;
 }
 
 .border-security {
   margin-right: 10rem;
   margin-left: 10rem;
-
 }
 
 .line{
-  width: 44rem;
-  height: 4rem;
+  width: 95%;
+  height: 80%;
   border-bottom: 1px solid black;
   position: absolute;
   /* margin-bottom: 10rem; */
@@ -67,4 +69,85 @@ ul.nav li a, ul.nav li a:visited {
 .flash-content {
   width: 500px;
   margin: 10px auto;
+}
+html {
+  height: 100%;
+}
+
+table {
+  overflow-x:auto;
+}
+
+/* @media screen and (max-width: 768px) {
+  h1{
+      font-size:14px;
+  }
+} */
+
+@media (max-width: 575.98px) { 
+  h1.display-2{
+    font-size:3rem;
+    word-wrap: break-word;
+  }
+  h2.display-4{
+    font-size:2rem;
+    word-wrap: break-word;
+  }
+  h3.display-5{
+    font-size:1rem;
+    word-wrap: break-word;
+  }
+  h4 {
+    font-size: 2rem;
+  }
+ }
+
+@media (min-width: 576px) and (max-width: 767.98px) { 
+  h1.display-2{
+    font-size:4rem;
+  }
+  h2.display-4{
+    font-size:3rem;
+  }
+  h3.display-5{
+    font-size:2rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {  
+  h1.display-2{
+    font-size:auto;
+  }
+  h2.display-4{
+    font-size:auto;
+  }
+  h3.display-5{
+    font-size:auto;
+  }
+}
+
+@media (min-width: 992px) and (max-width: 1199.98px) { 
+  h1.display-2{
+    font-size:auto;
+  }
+  h2.display-4{
+    font-size:auto;
+  }
+  h3.display-5{
+    font-size:auto;
+  }
+}
+
+@media (min-width: 1200px) { 
+  h1.display-2{
+    font-size:auto;
+  }
+
+  h2.display-4{
+    font-size:auto;
+  }
+
+  h3.display-5{
+    font-size:auto;
+  }
 }
