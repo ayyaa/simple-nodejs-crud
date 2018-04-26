@@ -1,5 +1,7 @@
 # Simple CRUD with NodeJS
 
+https://travis-ci.org/ayyaa/simple-nodejs-crud.svg?branch=master
+
 ## About
 
 a simple Web Informatin Student, 
